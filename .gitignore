@@ -20,3 +20,7 @@ _cgo_export.*
 _testmain.go
 
 *.exe
+example/text/text
+example/scale/scale
+
+*~
