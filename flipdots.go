@@ -33,7 +33,7 @@ func listToByte(s string) byte {
 	return b
 }
 
-func MatrixToPacket(s string) []byte {
+func matrixToPacket(s string) []byte {
 	b := []byte{}
 
 	for i := 0; i < len(s)/8; i++ {
@@ -102,7 +102,7 @@ func (fd *FlipDots) Clear() error {
 
 func (fd *FlipDots) SendImage(img image.Image) error {
 	imgmap := fd.ImageToMatrix(img)
-	_, err := fd.Connection.Write(MatrixToPacket(imgmap))
+	_, err := fd.Connection.Write(matrixToPacket(imgmap))
 	return err
 }
 
