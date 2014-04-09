@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/muesli/flipdots.go"
+	"github.com/muesli/flipdots"
 )
 
 var (
