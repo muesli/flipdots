@@ -8,6 +8,7 @@ import (
 	"net"
 
 	"github.com/golang/freetype"
+	colorful "github.com/lucasb-eyer/go-colorful"
 	"golang.org/x/image/font"
 )
 
@@ -50,8 +51,9 @@ func (fd *FlipDots) ImageToMatrix(img image.Image) string {
 	for row := 0; row < fd.Height; row++ {
 		for column := 0; column < fd.Width; column++ {
 			color := img.At(column, row)
-			pr, pg, pb, _ := color.RGBA()
-			if pr > 32767 || pg > 32767 || pb > 32767 {
+			cf, _ := colorful.MakeColor(color)
+			l, _, _ := cf.Lab()
+			if l >= 0.5 {
 				imgmap = imgmap + "1"
 			} else {
 				imgmap = imgmap + "0"
