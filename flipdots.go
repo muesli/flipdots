@@ -64,7 +64,7 @@ func (fd *FlipDots) ImageToMatrix(img image.Image) string {
 }
 
 func (fd *FlipDots) TextToImage(text, ttfPath string) (image.Image, error) {
-	rgba := image.NewRGBA(image.Rect(0, 0, fd.Width, fd.Height))
+	rgba := image.NewRGBA(image.Rect(0, 0, fd.Width*16, fd.Height))
 
 	fontBytes, err := ioutil.ReadFile(ttfPath)
 	if err != nil {
