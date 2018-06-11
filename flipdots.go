@@ -25,8 +25,7 @@ type FlipDots struct {
 }
 
 func listToByte(s string) byte {
-	var b byte
-	b = 0
+	b := byte(0)
 	for i := 0; i < 8; i++ {
 		if s[i] == '1' {
 			b += byte(math.Pow(float64(2), float64(7-i)))
