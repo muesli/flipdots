@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"math"
 	"net"
+	"time"
 
 	"github.com/golang/freetype"
 	colorful "github.com/lucasb-eyer/go-colorful"
@@ -61,6 +62,24 @@ func (fd *FlipDots) ImageToMatrix(img image.Image) string {
 	}
 
 	return imgmap
+}
+
+func (fd *FlipDots) ScrollImage(img image.Image) error {
+	b := img.Bounds()
+	for x := 0; x < b.Max.X; x++ {
+		subimg := image.NewRGBA(image.Rect(0, 0, fd.Width*16, fd.Height))
+		draw.Draw(subimg, b, fd.Background, image.ZP, draw.Src)
+		draw.Draw(subimg, b, img, b.Min.Add(image.Pt(x, 0)), draw.Src)
+
+		err := fd.SendImage(subimg)
+		if err != nil {
+			return err
+		}
+
+		time.Sleep(55 * time.Millisecond)
+	}
+
+	return nil
 }
 
 func (fd *FlipDots) TextToImage(text, ttfPath string) (image.Image, error) {
