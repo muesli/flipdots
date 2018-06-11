@@ -131,7 +131,7 @@ func (fd *FlipDots) SendImage(img image.Image) error {
 	return err
 }
 
-func Init(addr string, width int, height int) (FlipDots, error) {
+func New(addr string, width int, height int) (FlipDots, error) {
 	fd := FlipDots{
 		Width:       width,
 		Height:      height,
