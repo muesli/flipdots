@@ -1,23 +1,22 @@
 package main
 
 import (
-	"fmt"
-	"github.com/muesli/flipdots"
-	"github.com/nfnt/resize"
 	"image"
 	"image/draw"
 	"time"
+
+	"github.com/muesli/flipdots"
+
+	"github.com/nfnt/resize"
 )
 
 var (
-	ttfPath = "/Library/Fonts/Verdana.ttf"
+	ttfPath = "/usr/share/fonts/TTF/DejaVuSans.ttf"
 	text    = "flipdots.go!"
 )
 
 func main() {
-	fmt.Println("FLIPDOTS GO!")
-
-	fd, err := flipdots.Init("flipdot.ffa:2323", 80, 16)
+	fd, err := flipdots.New("flipdot.lab:2323", 80, 16)
 	if err != nil {
 		panic(err)
 	}
@@ -37,7 +36,7 @@ func main() {
 
 		draw.Draw(m, r, scaleimg, sr.Min, draw.Src)
 		fd.SendImage(m)
-		time.Sleep(100)
+		time.Sleep(55 * time.Millisecond)
 	}
 
 	fd.Clear()
