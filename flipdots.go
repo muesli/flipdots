@@ -1,12 +1,14 @@
 package flipdots
 
 import (
-	"code.google.com/p/freetype-go/freetype"
 	"image"
 	"image/draw"
 	"io/ioutil"
 	"math"
 	"net"
+
+	"github.com/golang/freetype"
+	"golang.org/x/image/font"
 )
 
 type FlipDots struct {
@@ -67,7 +69,7 @@ func (fd *FlipDots) TextToImage(text, ttfPath string) (image.Image, error) {
 	if err != nil {
 		return rgba, err
 	}
-	font, err := freetype.ParseFont(fontBytes)
+	ttf, err := freetype.ParseFont(fontBytes)
 	if err != nil {
 		return rgba, err
 	}
@@ -75,23 +77,26 @@ func (fd *FlipDots) TextToImage(text, ttfPath string) (image.Image, error) {
 	draw.Draw(rgba, rgba.Bounds(), fd.Background, image.ZP, draw.Src)
 	c := freetype.NewContext()
 	c.SetDPI(fd.Dpi)
-	c.SetFont(font)
+	c.SetFont(ttf)
 	c.SetFontSize(fd.FontSize)
 	c.SetClip(rgba.Bounds())
 	c.SetDst(rgba)
 	c.SetSrc(fd.Foreground)
 
-	//c.SetHinting(freetype.NoHinting)
-	c.SetHinting(freetype.FullHinting)
+	// c.SetHinting(font.HintingNone)
+	c.SetHinting(font.HintingFull)
 
-	pt := freetype.Pt(1, 1+int(c.PointToFix32(fd.FontSize)>>8))
-	_, err = c.DrawString(text, pt)
+	fh := c.PointToFixed(fd.FontSize/2.0) / 64
+	yc := 1 + (float64(fd.Height) / 2.0) + (float64(fh) / 2.0)
+
+	pt := freetype.Pt(1, int(yc))
+	s, err := c.DrawString(text, pt)
 	if err != nil {
 		return rgba, err
 	}
-	//	pt.Y += c.PointToFix32(fd.FontSize * fd.FontSpacing)
+	// pt.Y += c.PointToFix32(fd.FontSize * fd.FontSpacing)
 
-	return rgba, nil
+	return rgba.SubImage(image.Rect(0, 0, int(float64(s.X)/64), fd.Height)), nil
 }
 
 func (fd *FlipDots) Clear() error {
