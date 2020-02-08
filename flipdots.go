@@ -66,7 +66,7 @@ func (fd *FlipDots) ImageToMatrix(img image.Image) string {
 
 func (fd *FlipDots) ScrollImage(img image.Image) error {
 	b := img.Bounds()
-	for x := 0; x < b.Max.X; x++ {
+	for x := -fd.Width; x < b.Max.X+1; x++ {
 		subimg := image.NewRGBA(image.Rect(0, 0, fd.Width*16, fd.Height))
 		draw.Draw(subimg, b, fd.Background, image.ZP, draw.Src)
 		draw.Draw(subimg, b, img, b.Min.Add(image.Pt(x, 0)), draw.Src)

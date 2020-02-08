@@ -5,7 +5,7 @@ import (
 )
 
 var (
-	ttfPath = "/usr/share/fonts/TTF/DejaVuSans.ttf"
+	ttfPath = "/usr/share/fonts/TTF/Roboto-Medium.ttf"
 	text    = "Fuddelwuddelduddelmoo!"
 )
 
